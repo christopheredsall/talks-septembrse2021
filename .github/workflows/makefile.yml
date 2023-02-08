@@ -1,19 +1,40 @@
-name: Makefile CI
+name: CI
 
 on:
-  push:
-    branches: [ "add-ci" ]
+  # Run on all pull requests that change code.
   pull_request:
-    branches: [ "add-ci" ]
+    paths-ignore:
+      - 'README.md'
+      - LICENSE
+      - .editorconfig
+  # Run every time a code change is pushed.
+  push:
+    paths-ignore:
+      - 'README.md'
+      - LICENSE
+      - .editorconfig
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        pandoc:
+          - edge
+          - latest
+            # This should be the oldest version that's supported
+            # - 2.19.2
+
+    container:
+      image: pandoc/core:${{ matrix.pandoc }}
 
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Build presentation
-      - uses: docker://pandoc/core:2.9
-      - run: make
+      - name: Install dependencies
+        run: apk add make
+
+      - name: Build presentation
+        run: make
