@@ -15,4 +15,5 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Build presentation
-      run: make
+      - uses: docker://pandoc/core:2.9
+        run: make
