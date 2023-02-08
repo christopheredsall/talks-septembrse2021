@@ -16,4 +16,4 @@ jobs:
 
     - name: Build presentation
       - uses: docker://pandoc/core:2.9
-        run: make
+      - run: make
