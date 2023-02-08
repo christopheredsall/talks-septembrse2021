@@ -1,0 +1,18 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "add-ci" ]
+  pull_request:
+    branches: [ "add-ci" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build presentation
+      run: make
